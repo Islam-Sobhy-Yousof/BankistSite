@@ -29,3 +29,17 @@ document.addEventListener('keydown', function (e) {
     closeModal();
   }
 });
+
+//////////////////////////////////////App Logic///////////////////////////////////////
+
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const sectionOne = document.querySelector('#section--1');
+
+btnScrollTo.addEventListener('click', function () {
+  const sectionOneCords = sectionOne.getBoundingClientRect();
+  window.scrollTo({
+    left: sectionOneCords.left + window.scrollX,
+    top: sectionOneCords.top + window.scrollY,
+    behavior: 'smooth',
+  });
+});
