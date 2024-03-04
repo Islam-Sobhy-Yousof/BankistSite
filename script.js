@@ -35,6 +35,9 @@ document.addEventListener('keydown', function (e) {
 const btnScrollTo = document.querySelector('.btn--scroll-to');
 const sectionOne = document.querySelector('#section--1');
 
+/*
+-Implementing section scrolling onclicking on the button 
+*/
 btnScrollTo.addEventListener('click', function () {
   const sectionOneCords = sectionOne.getBoundingClientRect();
   window.scrollTo({
@@ -42,4 +45,22 @@ btnScrollTo.addEventListener('click', function () {
     top: sectionOneCords.top + window.scrollY,
     behavior: 'smooth',
   });
+});
+
+/*
+-Implementing PageNavigatino scrolling 
+*/
+const navLinksContainer = document.querySelector('.nav__links');
+navLinksContainer.addEventListener('click', event => {
+  event.preventDefault();
+  if (event.target.classList.contains('nav__link')) {
+    const sectionId = event.target.getAttribute('href');
+    const targetSection = document.querySelector(sectionId);
+    const targetSectionCords = targetSection.getBoundingClientRect();
+    window.scrollTo({
+      left: targetSectionCords.left,
+      top: targetSectionCords.top,
+      behavior: 'smooth',
+    });
+  }
 });
