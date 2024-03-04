@@ -126,3 +126,22 @@ const navElement = document.querySelector('.nav');
 navElement.addEventListener('mouseover', handelHover.bind(0.5));
 
 navElement.addEventListener('mouseout', handelHover.bind(1));
+
+/*
+- Implementing Sticky Nav 🎯 🐑
+*/
+
+//the nav has the class => nav
+//to make the nav sticky you have to add the class sticky to it
+//before the first section if the remaining height = the nav height make it sticky
+//if the nave is at less height remove the sticky class
+
+document.onscroll = function () {
+  const sectionOneTop = sectionOne.getBoundingClientRect().top;
+  const navHeight = navElement.getBoundingClientRect().height;
+  if (sectionOneTop <= 90) {
+    navElement.classList.add('sticky');
+  } else {
+    navElement.classList.remove('sticky');
+  }
+};
