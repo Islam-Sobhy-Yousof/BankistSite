@@ -152,3 +152,26 @@ const stickyObserver = new IntersectionObserver(stickyNav, {
   rootMargin: `-${navHeight}px`,
 });
 stickyObserver.observe(headerElement);
+
+/*
+- Implementing Revealing elements on scrolling
+*/
+
+//each section has the class => section--hidden
+//when the target section intersect with the viewPort with 20% ration  then remove this calss
+const allSections = [...document.querySelectorAll('.section')];
+
+const revealingSections = function(entries){
+  entries.forEach((entry) => {
+    if(entry.isIntersecting === true){
+      entry.target.classList.remove('section--hidden');
+    }
+  })
+}
+const revealingObserver = new IntersectionObserver(revealingSections,{
+  root: null,
+  threshold: 0.2
+});
+allSections.forEach(sec => {
+  revealingObserver.observe(sec);
+})
