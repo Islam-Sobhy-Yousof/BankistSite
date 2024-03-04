@@ -177,3 +177,31 @@ allSections.forEach(sec => {
   sec.classList.add('section--hidden');
   revealingObserver.observe(sec);
 });
+
+/*
+- Implementing the lazy image effect
+*/
+//include the lazy loading property
+//each lazy imag has a src for a small weight img
+//and has the data-src attribute for the other image that is too big
+//each lazy image has the class => lazy-img
+
+const allLazyImages = [...document.querySelectorAll('.lazy-img')];
+
+const lazyImgLoader = function (entries, observer) {
+  entries.forEach(entry => {
+    if (entry.isIntersecting === true) {
+      const lazyImg = entry.target.dataset.src;
+      entry.target.setAttribute('src', lazyImg);
+      entry.target.classList.remove('lazy-img');
+      observer.unobserve(entry.target);
+    }
+  });
+};
+const lazyImgObserver = new IntersectionObserver(lazyImgLoader, {
+  root: null,
+  threshold: 0.1,
+});
+allLazyImages.forEach(img => {
+  lazyImgObserver.observe(img);
+});
