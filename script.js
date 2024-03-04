@@ -161,17 +161,19 @@ stickyObserver.observe(headerElement);
 //when the target section intersect with the viewPort with 20% ration  then remove this calss
 const allSections = [...document.querySelectorAll('.section')];
 
-const revealingSections = function(entries){
-  entries.forEach((entry) => {
-    if(entry.isIntersecting === true){
+const revealingSections = function (entries, observer) {
+  entries.forEach(entry => {
+    if (entry.isIntersecting === true) {
       entry.target.classList.remove('section--hidden');
+      observer.unobserve(entry.target);
     }
-  })
-}
-const revealingObserver = new IntersectionObserver(revealingSections,{
+  });
+};
+const revealingObserver = new IntersectionObserver(revealingSections, {
   root: null,
-  threshold: 0.2
+  threshold: 0.15,
 });
 allSections.forEach(sec => {
+  sec.classList.add('section--hidden');
   revealingObserver.observe(sec);
-})
+});
