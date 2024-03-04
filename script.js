@@ -136,12 +136,19 @@ navElement.addEventListener('mouseout', handelHover.bind(1));
 //before the first section if the remaining height = the nav height make it sticky
 //if the nave is at less height remove the sticky class
 
-document.onscroll = function () {
-  const sectionOneTop = sectionOne.getBoundingClientRect().top;
-  const navHeight = navElement.getBoundingClientRect().height;
-  if (sectionOneTop <= 90) {
-    navElement.classList.add('sticky');
-  } else {
+const headerElement = document.querySelector('.header');
+const navHeight = navElement.getBoundingClientRect().height;
+const stickyNav = function (entries) {
+  const [entry] = entries;
+  if (entry.isIntersecting === true) {
     navElement.classList.remove('sticky');
+  } else {
+    navElement.classList.add('sticky');
   }
 };
+const stickyObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0,
+  rootMargin: `-${navHeight}px`,
+});
+stickyObserver.observe(headerElement);
