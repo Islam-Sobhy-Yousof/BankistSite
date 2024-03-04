@@ -64,3 +64,32 @@ navLinksContainer.addEventListener('click', event => {
     });
   }
 });
+
+/*
+- Implementing Tabs Component
+*/
+//the content which is active having the class => operations__content--active
+//the tap which is moving up when clicking on it have the class => operations__tab--active
+//the tabs have the class with the prefix => operations__tab--
+//the content of the tabs have the prefix => operations__content--
+
+//the parent of the tabs is => operations__tab-container
+
+const tabsContainer = document.querySelector('.operations__tab-container');
+tabsContainer.addEventListener('click', event => {
+  //Check if the click element is tab
+  if (event.target.classList.contains('operations__tab')) {
+    const allTabs = [...tabsContainer.children];
+    allTabs.forEach(ele => {
+      ele.classList.remove('operations__tab--active');
+    });
+    const allContent = [...document.querySelectorAll('.operations__content')];
+    allContent.forEach(ele => {
+      ele.classList.remove('operations__content--active');
+    });
+    const tabNumber = [...event.target.classList][2].slice(-1);
+    const matchedContent = document.querySelector(`.operations__content--${tabNumber}`);
+    matchedContent.classList.add('operations__content--active');
+    event.target.classList.add('operations__tab--active');
+  }
+});
