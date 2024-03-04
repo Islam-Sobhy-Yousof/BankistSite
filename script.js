@@ -76,22 +76,24 @@ navLinksContainer.addEventListener('click', event => {
 //the parent of the tabs is => operations__tab-container
 
 const tabsContainer = document.querySelector('.operations__tab-container');
+const allTabs = [...tabsContainer.children];
+const allContent = [...document.querySelectorAll('.operations__content')];
 tabsContainer.addEventListener('click', event => {
   //Check if the click element is tab
-  if (event.target.classList.contains('operations__tab')) {
-    const allTabs = [...tabsContainer.children];
+  const clickedTab = event.target.closest('.operations__tab');
+  if (clickedTab && clickedTab.classList.contains('operations__tab')) {
     allTabs.forEach(ele => {
       ele.classList.remove('operations__tab--active');
     });
-    const allContent = [...document.querySelectorAll('.operations__content')];
     allContent.forEach(ele => {
       ele.classList.remove('operations__content--active');
     });
-    const tabNumber = event.target.dataset.tab;
+    const tabNumber = clickedTab.dataset.tab;
+
     const matchedContent = document.querySelector(
       `.operations__content--${tabNumber}`
     );
     matchedContent.classList.add('operations__content--active');
-    event.target.classList.add('operations__tab--active');
+    clickedTab.classList.add('operations__tab--active');
   }
 });
