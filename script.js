@@ -97,3 +97,32 @@ tabsContainer.addEventListener('click', event => {
     clickedTab.classList.add('operations__tab--active');
   }
 });
+
+/*
+- Implementing Nav Hover Effect
+*/
+//the parent for all nav components has the class => nav
+
+//each nav link has the class => nav__link
+
+//the nav image has the class =>nav__logo
+
+const handelHover = function (event) {
+  const hoverdElement = event.target;
+  if (hoverdElement.classList.contains('nav__link')) {
+    const allLinks = [
+      ...hoverdElement.closest('.nav').querySelectorAll('.nav__link'),
+    ];
+    const navLogo = hoverdElement.closest('.nav').querySelector('.nav__logo');
+    allLinks.forEach(ele => {
+      if (ele !== hoverdElement) {
+        ele.style.opacity = this;
+      }
+    });
+    navLogo.style.opacity = this;
+  }
+};
+const navElement = document.querySelector('.nav');
+navElement.addEventListener('mouseover', handelHover.bind(0.5));
+
+navElement.addEventListener('mouseout', handelHover.bind(1));
