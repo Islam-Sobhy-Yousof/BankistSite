@@ -207,3 +207,72 @@ const lazyImgObserver = new IntersectionObserver(lazyImgLoader, {
 allLazyImages.forEach(img => {
   lazyImgObserver.observe(img);
 });
+
+/*
+- Implementing Slider component
+*/
+//the parent of these slides has the class => slider
+//each slide has main class which is => slide
+//each slide has a special class which is slide--[slid number]
+//you have to move the slide either 900 px to the right or to the left to make it move
+//there are two arrows one is right and the other is at left
+//the arrows classes are like this =>slider__btn--[arrow-direction]
+//the general class for the arrows is => slider__btn
+const allSlides = [...document.querySelectorAll('.slide')];
+const btnSliderLeft = document.querySelector('.slider__btn--left');
+const btnSliderRight = document.querySelector('.slider__btn--right');
+const slidesCnt = allSlides.length;
+let currSlideNum = 0;
+const dotsContainer = document.querySelector('.dots');
+const createDot = function () {
+  allSlides.forEach((_, idx) => {
+    const dot = `<button class="dots__dot" data-slide="${idx}"></button>`;
+    dotsContainer.insertAdjacentHTML('beforeend', dot.trim());
+  });
+};
+createDot();
+const activateDot = function (slide) {
+  const allDots = [...dotsContainer.querySelectorAll('.dots__dot')];
+  allDots.forEach(dot => {
+    dot.classList.remove('dots__dot--active');
+  });
+  const activeDot = document.querySelector(`.dots__dot[data-slide="${slide}"]`);
+  activeDot.classList.add('dots__dot--active');
+};
+activateDot(0);
+const placeSlides = function (currentSlide) {
+  allSlides.forEach((slide, idx) => {
+    slide.style.transform = `translateX(${(idx - currentSlide) * 100}%)`;
+  });
+};
+placeSlides(0);
+const nextSlide = function () {
+  currSlideNum = (currSlideNum + 1) % slidesCnt;
+  activateDot(currSlideNum);
+  placeSlides(currSlideNum);
+};
+const previousSlide = function () {
+  currSlideNum = (currSlideNum - 1 + slidesCnt) % slidesCnt;
+  activateDot(currSlideNum);
+  placeSlides(currSlideNum);
+};
+btnSliderLeft.addEventListener('click', previousSlide);
+
+btnSliderRight.addEventListener('click', nextSlide);
+
+document.addEventListener('keydown', event => {
+  const pressedKey = event.key;
+  if (pressedKey === 'ArrowRight') {
+    nextSlide();
+  } else if (pressedKey === 'ArrowLeft') {
+    previousSlide();
+  }
+});
+dotsContainer.addEventListener('click', event => {
+  const clickedDot = event.target;
+  if (clickedDot.classList.contains('dots__dot')) {
+    const slide = clickedDot.dataset.slide;
+    placeSlides(slide);
+    activateDot(slide);
+  }
+});
